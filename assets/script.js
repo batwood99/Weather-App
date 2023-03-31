@@ -6,3 +6,16 @@
 // Implement a search history feature by storing the searched city names in the browser's local storage.
 // Create a function to retrieve the search history from local storage and display it on the webpage.
 // Add an event listener to the search history list items, so that when a user clicks on a previously searched city, the current and future weather conditions for that city are displayed.
+
+var apiKey = '761e346dafa7493bf1d4e34f98aecb7c';
+var searchForm = document.querySelector('#search-form');
+var searchInput = document.querySelector('#city-input');
+var searchHistoryList = document.querySelector('#search-history ul');
+var currentWeather = document.querySelector('#current-weather');
+var forecast = document.querySelector('#forecast');
+
+var searchHistory = [];
+
+function getWeatherData(city) {
+    var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+}
