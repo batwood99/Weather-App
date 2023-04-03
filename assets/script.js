@@ -35,6 +35,7 @@ return fetch(apiUrl)
         windSpeed: data.wind.speed,
     };
 
+
     var apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`;
     return fetch(apiUrl)
         .then(response => {
@@ -62,7 +63,7 @@ var dateOptions = { weekday: 'long', month: 'long', day: 'numeric' };
 currentWeather.innerHTML = `
     <h2>${weatherData.city} (${weatherData.date.toLocaleDateString('en-US', dateOptions)})</h2>
     <img src="https://openweathermap.org/img/w/${weatherData.icon}.png" alt="${weatherData.icon}">
-    <p>Temperature: ${weatherData.temperature} &deg;C</p>
+    <p>Temperature: ${weatherData.temperature} &deg;F</p>
     <p>Humidity: ${weatherData.humidity} %</p>
     <p>Wind Speed: ${weatherData.windSpeed} m/s</p>
 `;
@@ -118,9 +119,9 @@ if (city) {
         saveSearchHistory(weatherData.city);
         displaySearchHistory();
     })
-    .catch(error => {
-        alert(error.message);
-    });
+    // .catch(error => {
+    //     alert(error.message);
+    // });
 }
 searchInput.value = '';
 }
