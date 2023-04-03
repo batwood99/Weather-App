@@ -17,5 +17,43 @@ var forecast = document.querySelector('#forecast');
 var searchHistory = [];
 
 function getWeatherData(city) {
-    var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-}
+    var apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+    return fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Cannot retrieve data at this time.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            var weatherData = {
+                city: data.name,
+                date: new Date(),
+                icon: data.weather[0].icon,
+                temperature: data.main.temp,
+                humidity: data.main.humidity,
+                windSpeed: data.wind.speed,
+            };
+
+            var apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+            return fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Cannot retrieve data at this time.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var forecastData = data.list.filter(item => item.dt_txt.includes('12:00:00')).slice(0, 5);
+                    weatherData.forecast = forecastData.map(item => ({
+                        date: new Date(item.dt_txt),
+                        icon: item.weather[0].icon,
+                        temperature: item.main.temp,
+                        humidity: item.main.humidity,
+                        windSpeed: item.wind.speed,
+                    }));
+                    return weatherData;
+                });
+            });
+        }
+    
