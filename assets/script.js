@@ -26,14 +26,14 @@ return fetch(apiUrl)
     return response.json();
     })
     .then(data => {
-    var weatherData = {
-        city: data.name,
-        date: new Date(),
-        icon: data.weather[0].icon,
-        temperature: data.main.temp,
-        humidity: data.main.humidity,
-        windSpeed: data.wind.speed,
-    };
+    // var weatherData = {
+    //     city: data.name,
+    //     date: new Date(),
+    //     icon: data.weather[0].icon,
+    //     temperature: data.main.temp,
+    //     humidity: data.main.humidity,
+    //     windSpeed: data.wind.speed,
+    // };
 
 
     var apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`;
@@ -45,47 +45,58 @@ return fetch(apiUrl)
         return response.json();
         })
         .then(data => {
-        var forecastData = data.list.filter(item => item.dt_txt.includes('12:00:00')).slice(0, 5);
-        weatherData.forecast = forecastData.map(item => ({
-            date: new Date(item.dt_txt),
-            icon: item.weather[0].icon,
-            temperature: item.main.temp,
-            humidity: item.main.humidity,
-            windSpeed: item.wind.speed,
-        }));
-        return weatherData;
+            console.log(data);
+        // var forecastData = data.list.filter(item => item.dt_txt.includes('12:00:00')).slice(0, 5);
+        // console.log(forecastData)
+        // weatherData.forecast = forecastData.map(item => ({
+        //     date: new Date(item.dt_txt),
+        //     icon: item.weather[0].icon,
+        //     temperature: item.main.temp,
+        //     humidity: item.main.humidity,
+        //     windSpeed: item.wind.speed,
+        // }));
+        // return weatherData;
+        displayCurrentWeather(data)
+        displayForecast(data)
         });
     });
 }
 
 function displayCurrentWeather(weatherData) {
-var dateOptions = { weekday: 'long', month: 'long', day: 'numeric' };
 currentWeather.innerHTML = `
-    <h2>${weatherData.city} (${weatherData.date.toLocaleDateString('en-US', dateOptions)})</h2>
-    <img src="https://openweathermap.org/img/w/${weatherData.icon}.png" alt="${weatherData.icon}">
-    <p>Temperature: ${weatherData.temperature} &deg;F</p>
-    <p>Humidity: ${weatherData.humidity} %</p>
-    <p>Wind Speed: ${weatherData.windSpeed} m/s</p>
+    <h2>${weatherData.city.name} (${weatherData.list[0].dt_txt})</h2>
+    <p>Temperature: ${weatherData.list[0].main.temp} &deg;F</p>
+    <p>Humidity: ${weatherData.list[0].main.humidity} %</p>
+    <p>Wind Speed: ${weatherData.list[0].wind.speed} mph</p>
 `;
 }
 
 function displayForecast(weatherData) {
-var dateOptions = { weekday: 'short', month: 'short', day: 'numeric' };
 forecast.innerHTML = `
     <h2>5-Day Forecast:</h2>
-    <div class="forecast-items">
-    ${weatherData.forecast.map(item => `
-        <div class="forecast-item">
-        <h3>${item.date.toLocaleDateString('en-US', dateOptions)}</h3>
-        <img src="https://openweathermap.org/img/w/${item.icon}.png" alt="${item.icon}">
-        <p>Temperature: ${item.temperature} &deg;C</p>
-        <p>Humidity: ${item.humidity} %</p>
-        <p>Wind Speed: ${item.windSpeed} m/s</p>
-        </div>
-    `).join('')}
-    </div>
+    <div class="day-1">
+    <p>Temperature: ${weatherData.list[1].main.temp} &deg;F</p>
+    <p>Humidity: ${weatherData.list[1].main.humidity} %</p>
+    <p>Wind Speed: ${weatherData.list[1].wind.speed} mph</p>
+    <div class="day-2">
+    <p>Temperature: ${weatherData.list[2].main.temp} &deg;F</p>
+    <p>Humidity: ${weatherData.list[2].main.humidity} %</p>
+    <p>Wind Speed: ${weatherData.list[2].wind.speed} mph</p>
+    <div class="day-3">
+    <p>Temperature: ${weatherData.list[3].main.temp} &deg;F</p>
+    <p>Humidity: ${weatherData.list[3].main.humidity} %</p>
+    <p>Wind Speed: ${weatherData.list[3].wind.speed} mph</p>
+    <div class="day-4">
+    <p>Temperature: ${weatherData.list[4].main.temp} &deg;F</p>
+    <p>Humidity: ${weatherData.list[4].main.humidity} %</p>
+    <p>Wind Speed: ${weatherData.list[4].wind.speed} mph</p>
+    <div class="day-5">
+    <p>Temperature: ${weatherData.list[5].main.temp} &deg;F</p>
+    <p>Humidity: ${weatherData.list[5].main.humidity} %</p>
+    <p>Wind Speed: ${weatherData.list[5].wind.speed} mph</p>
 `;
 }
+
 
 function saveSearchHistory(city) {
 if (!searchHistory.includes(city)) {
@@ -119,9 +130,7 @@ if (city) {
         saveSearchHistory(weatherData.city);
         displaySearchHistory();
     })
-    // .catch(error => {
-    //     alert(error.message);
-    // });
+
 }
 searchInput.value = '';
 }
