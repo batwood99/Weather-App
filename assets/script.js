@@ -10,7 +10,7 @@
 var apiKey = '761e346dafa7493bf1d4e34f98aecb7c';
 var citySearchEl = document.querySelector("#city-search");
 var submitButtonEl = document.querySelector("#submit-btn");
-var todaysWeatherEl = document.querySelector("#todays-weather");
+var currentWeatherEl = document.querySelector("#todays-weather");
 var futureWeatherEl = document.querySelector("#future-weather");
 var cityListEl = document.querySelector("#last-cities-card");
 var forecastTitleEl = document.querySelector("#forecast-title");
@@ -35,7 +35,7 @@ function getTodaysWeather(city) {
             var humidity = data.list[0].main.humidity;
             var iconCode = data.list[0].weather[0].icon;
             var icon = 'https://openweathermap.org/img/wn/' + iconCode + '@2x.png';
-            todaysWeatherEl.innerHTML = '';
+            currentWeatherEl.innerHTML = '';
             displayTodaysWeather(temp, wind, humidity, icon, city);
           });
         } else {
@@ -57,19 +57,19 @@ function displayTodaysWeather(temp, wind, hum, icon, city) {
     iconEl.src = icon;
     dateEl.textContent = city + ' (' + date + ')';
     dateEl.appendChild(iconEl);
-    todaysWeatherEl.appendChild(dateEl);
+    currentWeatherEl.appendChild(dateEl);
 
     var tempEl = document.createElement('p');
     tempEl.textContent = 'Temperature: ' + temp + " °F";
-    todaysWeatherEl.appendChild(tempEl);
+    currentWeatherEl.appendChild(tempEl);
 
     var windEl = document.createElement('p');
     windEl.textContent = 'Wind: ' + wind + " MPH";
-    todaysWeatherEl.appendChild(windEl);
+    currentWeatherEl.appendChild(windEl);
 
     var humidityEl = document.createElement('p');
     humidityEl.textContent = 'Humidity: ' + hum + "%";
-    todaysWeatherEl.appendChild(humidityEl);
+    currentWeatherEl.appendChild(humidityEl);
 
 }
 

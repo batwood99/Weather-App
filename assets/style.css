@@ -1,0 +1,14 @@
+body {
+    font-family: 'IBM Plex Serif', 'Crete Round', 'Content', 'Lucida Sans', Arial, sans-serif;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-image: radial-gradient(circle, #5c5c5c, #ffffff);
+}
+
+h1 {
+    color: rgb(0, 0, 0);
+}
